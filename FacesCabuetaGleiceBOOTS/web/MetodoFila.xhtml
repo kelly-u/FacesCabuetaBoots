@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Método de Fila</title>
+        <ui:include src="menu.xhtml" />
+    </h:head>
+    <h:body  style="background-color: wheat;">
+
+        <h1 style="font-family: cursive; color: darkred; text-align: center" >Visualizar Métodos de Fila</h1>
+
+        <!-- TABELA METODO FILA -->
+
+        <b:growl id="gro" show-summary="true" show-detail="true"/>
+        <b:form id="formMetodoFila">
+            <b:button value="Cadastrar" look="primary" onclick="$('#modalCadastro').modal('show')"  style="background-color: darkred"></b:button>
+            <b:dataTable id="tblMetodoFila" value="#{metodoFilaController.metodosFila}" var="item"
+                         pdf="true">
+                <b:dataTableColumn value="#{item.descricaoCurta}" label="Descrição curta"/>
+                <b:dataTableColumn value="#{item.descricaoLonga}" label="Descrição longa"/>
+                <b:dataTableColumn>
+                    <f:facet name="header">
+                        OPERAÇÕES
+                    </f:facet>
+
+                    <!-- VISUALIZAR -->
+                    <b:commandButton icon="search" ajax="true" update=":modalDetalhe" 
+                                     oncomplete="$('#modalDetalhe').modal('show')" 
+                                     look="secondary">
+                        <f:setPropertyActionListener value="#{item}" 
+                                                     target="#{metodoFilaController.selection}"/>
+                    </b:commandButton>
+
+                    <!-- EDITAR -->
+                    <b:commandButton icon="pencil" ajax="true" update=":formEdit:modalEdit"
+                                     oncomplete="$('.modalEdit').modal('show')"
+                                     look='secondary'>
+
+                        <f:setPropertyActionListener value="#{item}"
+                                                     target="#{metodoFilaController.selection}"/>
+                    </b:commandButton>
+
+                    <!-- DELETAR -->
+                    <p:commandButton icon="ui-icon-trash" action="#{metodoFilaController.deletar()}"
+                                     update=":gro @form">
+                        <f:setPropertyActionListener value="#{item}"
+                                                     target="#{metodoFilaController.selection}"/>
+
+                        <p:confirm message="Tem certeza que você deseja remover este método de fila?"/>
+
+                    </p:commandButton>
+
+                    <p:confirmDialog global="true" >
+                        <p:commandButton value="sim" styleClass="ui-confirmdialog-yes"/>
+                        <p:commandButton value="no" styleClass="ui-confirmdialog-no"/>
+                    </p:confirmDialog>
+
+                </b:dataTableColumn>
+            </b:dataTable>
+        </b:form>
+
+
+
+        <!-- MODAL CADASTRO -->
+        <b:modal id="modalCadastro" title="Cadastro de novo método de fila" >
+            <b:form>
+                <b:panelGrid columns="2">
+                    <h:outputText value="Descrição Curta*:"/>
+                    <h:inputText value="#{metodoFilaController.cadastro.descricaoCurta}"
+                                 required="true" requiredMessage="O campo descrição curta é obrigatório" />
+
+                    <h:outputText value="Descrição Longa*:"/>
+                    <h:inputText value="#{metodoFilaController.cadastro.descricaoLonga}"
+                                 required="true" requiredMessage="O campo descrição longa é obrigatório" />
+                </b:panelGrid>
+                <b:commandButton value="Cadastrar" look="primary" action="#{metodoFilaController.cadastrar()}"/>
+                <b:commandButton value="Resetar Campo" look="secundary" action="${metodoFilaController.resetarCamposCadastro()}"/>
+            </b:form>
+        </b:modal>
+
+        <!-- MODAL VISUALIZAR -->
+        <b:modal id="modalDetalhe" title="Detalhe do método de fila">
+            <b:panelGrid columns="2">
+
+                <h:outputText value="Descrição Curta:"/>
+                <h:outputText value="#{metodoFilaController.selection.descricaoCurta}"/>
+
+                <h:outputText value="Descrição Longa:"/>
+                <h:outputText value="#{metodoFilaController.selection.descricaoLonga}"/>
+
+            </b:panelGrid>
+        </b:modal>
+
+        <!-- MODAL EDITAR -->
+        <b:form id="formEdit">
+            <b:modal id="modalEdit" title="Editar o método de fila" style-class="modalEdit">
+                <b:panelGrid columns="2">
+
+                    <h:outputText value="Descrição Curta*:"/>
+                    <h:inputText value="#{metodoFilaController.selection.descricaoCurta}"
+                                 required="true" requiredMessage="O campo descrição curta é obrigatório" />
+
+                    <h:outputText value="Descrição Longa*:"/>
+                    <h:inputText value="#{metodoFilaController.selection.descricaoLonga}"
+                                 required="true" requiredMessage="O campo descrição longa é obrigatório" />
+
+                </b:panelGrid>
+
+                <b:commandButton value="Editar" action="#{metodoFilaController.editar()}" look="primary"/>
+                <b:button dismiss="modal" value="Cancelar"></b:button>
+
+            </b:modal>
+        </b:form>
+    </h:body>
+</html>
+

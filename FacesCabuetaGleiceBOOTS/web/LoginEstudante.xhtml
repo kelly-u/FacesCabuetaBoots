@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <title>Login Estudante</title>
+        <ui:include src="menu.xhtml" />
+    </h:head>
+    <h:body style="background-color: wheat;">
+
+        <b:growl id="gro" show-detail="true"/>
+
+        <c:if test="#{estudanteController.logado ne null}">
+
+            #{facesContext.externalContext.redirect('indexEstudante2.xhtml')}
+        </c:if>
+
+            <h1 style="text-align: center; font-family: Arial; color: darkred;">Faça o login estudante:</h1>
+        <h:form>
+            <p:dialog resizable="false" closable="false" closeOnEscape="false" visible="true" 
+                      draggable="false" header="Login">
+                <b:panelGrid columns="2">
+                    <h:outputText value="Email"/>
+                    <b:inputText value="#{email}"/>
+
+                    <h:outputText value="Senha"/>
+                    <b:inputSecret value="#{senha}"/>
+                </b:panelGrid>
+
+                <b:commandButton value="Login" action="#{estudanteController.realizarLogin(email, senha)}"/>
+                <f:facet name="footer">
+                    <p>Não é cadastrado? <b:link value="registre-se" onclick="$('.modalRegistro').modal('show')"></b:link></p>
+                </f:facet>
+            </p:dialog>
+        </h:form>
+
+
+        <b:form id="formRegistroEstudante" >
+
+            <b:modal id="modalRegistro" title="Cadastro" style-class="modalRegistro">
+                <b:panelGrid columns="2">
+                    <h:outputText value="Nome"/>
+                    <b:inputText value="#{estudanteController.cadastro.nome}"/>
+
+                    <h:outputText value="Email"/>
+                    <b:inputText value="#{estudanteController.cadastro.email}"/>
+
+                    <h:outputText value="Ano de entrada"/>
+                    <b:inputText value="#{estudanteController.cadastro.anoEntrada}"/>
+
+                    <h:outputText value="Senha"/>
+                    <b:inputSecret value="#{estudanteController.cadastro.senha}"/>
+
+                    <h:outputText value="Confirmar senha"/>
+                    <b:inputSecret id="pswConfirma" value="#{confirma}"/>
+
+                </b:panelGrid>
+                <b:commandButton value="Registre-se" action="#{estudanteController.inserir(confirma)}"
+                                 oncomplete="document.getElementById('formRegistroEstudante:pswConfirma').value = ''"/>
+            </b:modal>
+
+        </b:form>
+
+    </h:body>
+</html>
+

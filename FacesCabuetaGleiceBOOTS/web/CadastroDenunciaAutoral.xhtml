@@ -1,0 +1,134 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Fazer Denúncia</title>
+        <ui:include src="MenuEstudante.xhtml"/>
+    </h:head>
+    <h:body style="background-color: wheat;">
+
+        <h2  style="font-family: cursive; color: darkred; text-align: center">Fazer Denúncia</h2>
+
+        <br/>
+        <br/>
+
+        <b:form id="formDenunciaAutoral" enctype="multipart/form-data">
+
+            <b:panelGrid col-spans="2,10" size="xs" style="position:absolute; width: 90%; left: 5%">
+                <h:outputText value="Data da Denúncia"/>
+                <p:calendar value="#{denunciaController.cadastro.dataDenuncia}" pattern="dd/MM/yyyy"/>
+
+
+            </b:panelGrid>
+
+            <br/>
+            <br/>
+
+            <b:panelGrid col-spans="2,10" size="xs" style="position:absolute; width: 90%; left: 5%">
+
+                <h:outputText value="Descrição"/>
+                <b:inputText value="#{denunciaController.cadastro.descricaoDoOcorrido}"/>
+
+            </b:panelGrid>
+
+
+            <br/>
+            <br/>
+
+            <b:panelGrid col-spans="2,2,2,2,4" size="xs" style="position:absolute; width: 90%; left: 5%">
+
+                <h:outputText value="Turno"/>
+                <b:inputText value="#{denunciaController.cadastro.turno}"/>
+
+                <!-- - private Professor professor; -->
+                <h:outputText value="Professor"/>
+                <b:selectOneMenu value="#{denunciaController.cadastro.professor}">
+                    <f:selectItem itemLabel="---"/>
+                    <f:selectItems var="prof" value="#{professorController.allProfessores()}" 
+                                   itemLabel="#{prof.nome}" itemValue="#{prof}">
+                    </f:selectItems>
+                </b:selectOneMenu>
+
+            </b:panelGrid>
+
+
+            <br/>
+            <br/>
+
+            <b:panelGrid col-spans="2,2,2,2,2,2" size="xs" style="position:absolute; width: 90%; right: 20%">
+
+                <!-- - private Cadeira cadeira; -->
+                <h:outputText value="Cadeira"/>
+                <b:selectOneMenu value="#{denunciaController.cadastro.cadeira}">
+                    <f:selectItem itemLabel="---"/>
+                    <f:selectItems var="cad" value="#{cadeiraController.allCadeiras()}" 
+                                   itemLabel="#{cad.nome}" itemValue="#{cad}">
+                    </f:selectItems>
+                </b:selectOneMenu>
+
+
+                <!-- private MetodoFila metodo; -->
+                <h:outputText value="Método de Fila"/>
+                <b:selectOneMenu value="#{denunciaController.cadastro.metodo}">
+                    <f:selectItem itemLabel="---"/>
+                    <f:selectItems var="met" value="#{metodoFilaController.allMetodos()}" 
+                                   itemLabel="#{met.descricaoCurta}" itemValue="#{met}">
+                    </f:selectItems>
+                </b:selectOneMenu>
+            </b:panelGrid>
+
+
+            <br/>
+            <br/>
+
+            <b:panelGrid col-spans="2,2,2,2,4" size="xs" style="position:absolute; width: 90%;  right: 20%">
+
+
+                <!-- denunciados -->
+                <h:outputText value="Estudantes Denunciados"/>
+                <b:selectOneMenu value="#{denunciaController.cadastro.denunciados}">
+                    <f:selectItem itemLabel="---"/>
+                    <f:selectItems var="den" value="#{estudanteController.allEstudantes()}" 
+                                   itemLabel="#{den.nome}" itemValue="#{den}">
+                    </f:selectItems>
+                </b:selectOneMenu>
+
+                <!--Para a lista de denunciados, você poderá usar o dataTable
+                com a opção selectionMode="multiple".
+                -->
+                <!--
+                <b:dataTable value="#{estudanteController.allEstudantes()}"
+                             var="den" select="true">
+                    <b:dataTableColumn selection-mode="multiple" />
+                    <b:dataTableColumn value="#{den.nome}" />
+                    <b:dataTableColumn value="#{den.email}" />
+                    <b:dataTableColumn value="#{den.anoEntrada}" />
+                </b:dataTable>
+                -->
+
+            </b:panelGrid>
+
+
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+
+            <b:panelGrid col-spans="2,2,2,2,4" size="xs" style="position:absolute; width: 90%; left: 5%">
+
+
+                <b:commandButton value="Fazer Denúncia" action="#{denunciaController.inserir(estudanteController.logado)}"
+                                 look="primary" oncomplete="location.href='indexEstudante2.xhtml'"/>
+                <b:commandButton value="Resetar campos" action="#{denunciaController.resetarCamposCadastro()}" look="warning" />
+
+            </b:panelGrid>
+
+        </b:form>
+    </h:body>
+</html>
+
