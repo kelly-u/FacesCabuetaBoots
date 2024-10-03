@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <c:if test="#{estudanteController.logado eq null}">
+            #{facesContext.externalContext.redirect('LoginEstudante.xhtml')}
+        </c:if>
+
+        <b:growl id="groMenu"/>
+
+        <b:form>
+        <b:navBar brand="Home" brandHref="indexEstudante2.xhtml" fluid="true" style="background-color: burlywood; font-family: Arial">
+
+            <b:navbarLinks>                
+                <b:dropMenu value="Olá, #{estudanteController.logado.nome}">
+                    <b:navLink></b:navLink>
+                    <b:navLink value="Meu Perfil" href="PerfilEstudante.xhtml" ajax="false"></b:navLink>
+                    <b:navLink></b:navLink>
+                    <b:navLink value="Cadastrar Denúncia" href="CadastroDenunciaAutoral.xhtml" ajax="false"></b:navLink>
+                    <b:navLink></b:navLink>
+                    <b:navLink value="Sair" href="LoginEstudante.xhtml" onclick="ajax:estudanteController.logout()"></b:navLink>
+                    <b:navLink></b:navLink>
+                </b:dropMenu>
+            </b:navbarLinks>
+
+            </b:navBar>
+        </b:form>
+
+    </h:body>
+</html>
+

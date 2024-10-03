@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:b="http://bootsfaces.net/ui">    <h:head>
+        <title>Faces Cabueta</title>
+        <ui:include src="menu.xhtml" />
+    </h:head>
+
+    <!-- Colocar uma ação nos botões parairem para as págians xhtml de login corretas -->
+
+    <h:body style="background-color: wheat;">
+
+        <h1 style="font-family: cursive; color: darkred; text-align: center;">Bem-vindo(a) ao Faces Cabueta!</h1>        
+        <h2 style="font-family: arial; color: gray; font-size: 20px; text-align: center;">Aqui não existem amigos ou inimigos, apenas cabuetas!</h2>
+
+        <br/>
+
+        <center>
+            <h:graphicImage value="dedo-cabueta.png" width="200" height="200" alt="Mão com o dedo indicador apontando para a tela"/>
+        </center>
+
+        <br/>
+
+        <h3 style="font-family: arial; color: darkred; font-size: 17px; text-align: center;">Faça seu login abaixo:</h3>
+
+        <div style="align-content: center; position: relative; left: 35%">
+            <b:button value="Estudante" href="http://localhost:8080/FacesCabuetaGleiceBOOTS/faces/indexEstudante2.xhtml" look="primary" style=" margin: 5%; background-color: burlywood; font-family: Arial; color: darkred; "/> 
+            <b:button value="Professor(a)" href="http://localhost:8080/FacesCabuetaGleiceBOOTS/faces/indexProfessor2.xhtml" look="primary" style="; background-color: burlywood; font-family: Arial;  color: darkred;"/>
+        </div>
+
+    </h:body>
+</html>
+

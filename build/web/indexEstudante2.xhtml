@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Home Estudante</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <ui:include src="menuEstudante.xhtml" />
+    </h:head>
+    <h:body style="background-color: wheat;"> 
+        
+        <h1 style="text-align: center; font-family: Arial; color: darkred;">Bem-vindo, bondoso cabueta #{estudanteController.logado.nome}!</h1>
+        
+        
+        <h2 style="margin: 3%; font-family: Arial;">Denúncias que você fez</h2>
+
+        <b:form id="formIndexEstudante">
+            <b:panelGrid col-spans="4, 4, 4" size="xs" style="margin: 3%">
+                <h:outputText class="h2" value=""/>
+
+                <c:forEach var="denuncia" items="#{estudanteController.logado.criadas}" varStatus="ind">
+
+                    <b:panel title="#{denuncia.turno}" collapsible="false">
+
+                        <f:facet name="footer">
+                            <b:commandButton value="Ver Denúncia completa" look="success" 
+                                             oncomplete="$('.modalDDenuncia').modal('show')"
+                                             update=":formIndexEstudante:modalDetalheDenuncia">
+                                <f:setPropertyActionListener value="#{denuncia}"
+                                                             target="#{denunciaController.selected}"/>
+                            </b:commandButton>
+                        </f:facet>
+
+                    </b:panel>
+                </c:forEach>
+            </b:panelGrid>
+            
+            
+            <b:modal id="modalDetalheDenuncia" style-class="modalDDenuncia fade" title="Sua denúncia">
+                 <b:panelGrid col-spans="2, 10" size="xs">
+                    <h:outputText value="Denuciante:"/>
+                    <h:outputText value="#{denunciaController.selected.denunciante.nome}"/>
+                </b:panelGrid>
+
+                <b:panelGrid col-spans="3, 3, 3, 3" size="xs">
+                    
+                    <h:outputText value="Denunciado:"/>
+                    <h:outputText value="#{denunciaController.selected.denunciados.nome}"/>
+                    
+                    <h:outputText value="Cadeira:"/>
+                    <h:outputText value="#{denunciaController.selected.cadeira.nome}"/>
+                    
+                    <h:outputText value="Professor:"/>
+                    <h:outputText value="#{denunciaController.selected.professor.nome}"/>
+                    
+                    <h:outputText value="Data da Denúncia:"/>
+                    <h:outputText value="#{denunciaController.selected.dataDenuncia}"/>
+                    
+                    <h:outputText value="Estudante(s) malvado(s):"/>
+                    <h:outputText value="#{denunciaController.selected.denunciados.nome}"/>
+                    
+                    <h:outputText value="Método de fila:"/>
+                    <h:outputText value="#{denunciaController.selected.metodo.descricaoCurta}"/>
+                    
+                    <h:outputText value="Turno:"/>
+                    <h:outputText value="#{denunciaController.selected.turno}"/>                    
+                    
+                </b:panelGrid>
+            </b:modal>
+
+            
+        </b:form>
+    </h:body>
+</html>

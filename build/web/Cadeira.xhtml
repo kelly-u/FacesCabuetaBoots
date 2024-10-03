@@ -1,0 +1,146 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+        
+    <h:head>
+        <title>Cadeira</title>
+        <ui:include src="menu.xhtml" />
+    </h:head>
+    <h:body  style="background-color: wheat;">
+        
+        <h1 style="font-family: cursive; color: darkred; text-align: center" >Visualizar Cadeiras</h1>
+        
+        <!-- TABELA CADEIRA -->
+        
+        <b:growl id="gro" show-summary="true" show-detail="true"/>
+        <b:form id="formCadeira">
+            <b:button value="Cadastrar" look="primary" onclick="$('#modalCadastro').modal('show')" style="background-color: darkred"></b:button>
+            <b:dataTable id="tblCadeira" value="#{cadeiraController.cadeira}" var="item"
+                         pdf="true">
+
+                <b:dataTableColumn value="#{item.nome}" label="Nome"/>
+                <b:dataTableColumn value="#{item.ano}" label="Ano"/>
+                <b:dataTableColumn value="#{item.semestre}" label="Semestre"/>
+                <b:dataTableColumn value="#{item.descricao}" label="Descrição"/>
+                <b:dataTableColumn>
+                    <f:facet name="header">
+                        OPERAÇÕES
+                    </f:facet>
+
+                    <!-- VISUALIZAR -->
+                    <b:commandButton icon="search" ajax="true" update=":modalDetalhe" 
+                                     oncomplete="$('#modalDetalhe').modal('show')" 
+                                     look="secondary">
+                        <f:setPropertyActionListener value="#{item}" 
+                                                     target="#{cadeiraController.selection}"/>
+                    </b:commandButton>
+
+                    <!-- EDITAR -->
+                    <b:commandButton icon="pencil" ajax="true" update=":formEdit:modalEdit"
+                                     oncomplete="$('.modalEdit').modal('show')"
+                                     look='secondary'>
+
+                        <f:setPropertyActionListener value="#{item}"
+                                                     target="#{cadeiraController.selection}"/>
+                    </b:commandButton>
+                    
+                    <!-- DELETAR -->
+
+                    <p:commandButton icon="ui-icon-trash" action="#{cadeiraController.deletar()}"
+                                     update=":gro @form">
+                        <f:setPropertyActionListener value="#{item}"
+                                                     target="#{cadeiraController.selection}"/>
+                        <p:confirm header="Tem certeza que você deseja remover esta cadeira?"/>
+                    </p:commandButton>
+
+                    <p:confirmDialog global="true">
+                        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes"/>
+                        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no"/>
+                    </p:confirmDialog>
+
+                </b:dataTableColumn>
+            </b:dataTable>
+        </b:form>
+
+        <!-- MODAL CADASTRO -->
+        <b:modal id="modalCadastro" title="Cadastro de nova cadeira" >
+            <b:form>
+                <b:panelGrid columns="2">
+                    <h:outputText value="Nome*:"/>
+                    <h:inputText value="#{cadeiraController.cadastro.nome}"
+                                 required="true" requiredMessage="O campo nome é obrigatório" />
+
+                    <h:outputText value="Ano*:"/>
+                    <h:inputText value="#{cadeiraController.cadastro.ano}"
+                                 required="true" requiredMessage="O campo ano é obrigatório" />
+
+                    <h:outputText value="Semestre*:"/>
+                    <h:inputText value="#{cadeiraController.cadastro.semestre}"
+                                 required="true" requiredMessage="O campo semestre é obrigatório" />
+
+                    <h:outputText value="Descrição*:"/>
+                    <h:inputText value="#{cadeiraController.cadastro.descricao}"
+                                 required="true" requiredMessage="O campo descrição é obrigatório" />
+                    
+                </b:panelGrid>
+                <b:commandButton value="Cadastrar" look="primary" action="#{cadeiraController.cadastrar()}"/>
+                <b:commandButton value="Resetar Campo" look="secundary" action="${cadeiraController.resetarCamposCadastro()}"/>
+            </b:form>
+        </b:modal>
+
+        <!-- MODAL VISUALIZAR -->
+        <b:modal id="modalDetalhe" title="Detalhe da cadeira">
+            <b:panelGrid columns="2">
+
+                <h:outputText value="Nome:"/>
+                <h:outputText value="#{cadeiraController.selection.nome}"/>
+
+                <h:outputText value="Ano:"/>
+                <h:outputText value="#{cadeiraController.selection.ano}"/>
+
+                <h:outputText value="Semestre:"/>
+                <h:outputText value="#{cadeiraController.selection.semestre}"/>
+
+                <h:outputText value="Descrição:"/>
+                <h:outputText value="#{cadeiraController.selection.descricao}"/>
+
+            </b:panelGrid>
+        </b:modal>
+
+        <!-- MODAL EDITAR -->
+        <b:form id="formEdit">
+            <b:modal id="modalEdit" title="Editar a cadeira" style-class="modalEdit">
+                <b:panelGrid columns="2">
+
+                    <h:outputText value="Nome*:"/>
+                    <h:inputText value="#{cadeiraController.selection.nome}"
+                                 required="true" requiredMessage="O campo nome é obrigatório" />
+
+                    <h:outputText value="Ano*:"/>
+                    <h:inputText value="#{cadeiraController.selection.ano}"
+                                 required="true" requiredMessage="O campo ano é obrigatório" />
+
+                    <h:outputText value="Semestre*:"/>
+                    <h:inputText value="#{cadeiraController.selection.semestre}"
+                                 required="true" requiredMessage="O campo semestre é obrigatório" />
+
+                    <h:outputText value="Descrição*:"/>
+                    <h:inputText value="#{cadeiraController.selection.descricao}"
+                                 required="true" requiredMessage="O campo descrição é obrigatório" />
+
+                </b:panelGrid>
+
+                <b:commandButton value="Editar" action="#{cadeiraController.editar()}" look="primary"/>
+                <b:button dismiss="modal" value="Cancelar"></b:button>
+
+            </b:modal>
+        </b:form>
+
+    </h:body>
+</html>
+

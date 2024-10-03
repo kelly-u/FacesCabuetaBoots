@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Home Professor</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <ui:include src="menuProfessor.xhtml" />
+    </h:head>
+    <h:body style="background-color: wheat;">
+        
+        <h1 style="text-align: center; color: darkred; font-family: Arial">Bem-vindo, justo(a) professor(a) #{professorController.logado.nome}!</h1>
+        
+        <h2 style="margin: 3%; font-family: Arial;">Denúncias para você</h2>
+        
+        <b:growl id="gro" show-summary="true" show-detail="true"/>
+        <b:form id="formDenProf" style="margin: 3%">
+
+            <p:dataTable id="tblDenProf" value="#{denunciaController.DenunciasProfLogado(professorController.logado)}" 
+                     var="denProf" sortBy="#{denProf.dataDenuncia}" sortOrder="descending"
+                     paginator="true" rows="10" 
+                     emptyMessage="Sem denúncias por enquanto...">
+            
+            <p:column headerText="Data do ocorrido">
+                <h:outputText value="#{denProf.dataDenuncia}">
+                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                </h:outputText>
+            </p:column>
+            
+            <p:column headerText="Professor">
+                <h:outputText value="#{denProf.professor.nome}" />
+            </p:column>
+            
+            <p:column headerText="Cadeira">
+                <h:outputText value="#{denProf.cadeira.nome}" />
+            </p:column>
+            
+            <p:column headerText="Turno">
+                <h:outputText value="#{denProf.turno}" />
+            </p:column>
+            
+            <p:column headerText="Cadeira">
+                <h:outputText value="#{denProf.cadeira.nome}" />
+            </p:column>
+                
+            <p:column headerText="Denunciado">
+                <h:outputText value="#{denProf.denunciados.nome}" />
+            </p:column>
+                
+            <p:column headerText="Método de fila">
+                <h:outputText value="#{denProf.metodo.descricaoCurta}" />
+            </p:column>
+                
+            <p:column headerText="Descrição do Ocorrido">
+                <h:outputText value="#{denProf.descricaoDoOcorrido}" />
+            </p:column>
+                
+            <p:column headerText="Denunciante">
+                <h:outputText value="#{denProf.denunciante.nome}" />
+            </p:column>
+            
+            <!--
+            <b:dataTable id="tblDenProf" value="#{denunciaController.allDenuncias()}" var="item"
+                         pdf="true">
+
+                <b:dataTableColumn value="#{item.turno}" label="Turno"/>
+                <b:dataTableColumn value="#{item.dataDenuncia}" label="Data da Denúncia"/>
+                <b:dataTableColumn value="#{item.descricaoDoOcorrido}" label="Descrição do ocorrido"/>
+                <b:dataTableColumn value="#{item.professor.nome}" label="Professor"/>
+                <b:dataTableColumn value="#{item.cadeira.nome}" label="Cadeira"/>
+                <b:dataTableColumn value="#{item.metodo.descricaoCurta}" label="Método"/>
+                <b:dataTableColumn value="#{item.denunciado.nome}" label="Denunciado"/>
+                <b:dataTableColumn value="#{item.denunciante.nome}" label="Denunciante"/>
+                
+
+            </b:dataTable>
+            -->
+            </p:dataTable>
+        </b:form>
+    </h:body>
+</html>
